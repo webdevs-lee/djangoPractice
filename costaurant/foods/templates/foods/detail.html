@@ -1,0 +1,7 @@
+{% load static %}
+<h2>{{ name }}</h2>
+<div>{{ description }}</div>
+<p>{{ price }} 원</p>
+<a href="/foods/index">돌아가기</a>
+
+<img src={% get_static_prefix %}{{ img_path }} width="300px" height="200px"/>
