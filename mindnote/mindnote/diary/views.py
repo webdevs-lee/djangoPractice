@@ -13,3 +13,6 @@ def page_detail(request, page_id):
     context["object"] = object
 
     return render(request, 'diary/page_detail.html', context=context)
+
+def info(request):
+    return render(request, 'diary/info.html')
