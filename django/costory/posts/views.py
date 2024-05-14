@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Post
 from .forms import PostForm
 
@@ -8,8 +9,14 @@ def index(request):
 
 def post_list(request):
     posts = Post.objects.all()
-    context = {'posts': posts}
-    return render(request, 'posts/post_list.html', context=context)
+    paginator = Paginator(posts, 6)
+    current_page_number = request.GET.get('page')
+
+    if current_page_number is None:
+        current_page_number = 1
+
+    page = paginator.page(current_page_number)
+    return render(request, 'posts/post_list.html', {'page': page})
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)

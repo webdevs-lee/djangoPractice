@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Page
 from .forms import PageForm
 
@@ -8,8 +9,15 @@ def index(request):
 
 def page_list(request):
     object_list = Page.objects.all()
-    context = {'object_list': object_list}
-    return render(request, 'diary/page_list.html', context=context)
+    paginator = Paginator(object_list, 8)
+
+    page_number = request.GET.get('page') # 쿼리 스트링의 key 값으로 현재 page 받아오기
+
+    if page_number is None:
+        page_number = 1
+    
+    page = paginator.page(page_number)
+    return render(request, 'diary/page_list.html', {'page': page})
 
 def page_detail(request, page_id):
     context=dict()
